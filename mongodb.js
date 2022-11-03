@@ -48,7 +48,3 @@ const skus = new Schema({
 })
 
 
-
-const Glossary = mongoose.model('Glossary', glossarySchema);
-
-module.exports.glossaries = Glossary;
