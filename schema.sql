@@ -1,4 +1,6 @@
-\c product;
+CREATE DATABASE productdata;
+
+\c productdata;
 
 CREATE TABLE product (
   id serial PRIMARY KEY,
@@ -18,7 +20,7 @@ CREATE TABLE features (
 
 CREATE TABLE styles (
   id serial PRIMARY KEY,
-  product_id INT references product(id),
+  productid INT references product(id),
   name VARCHAR(255),
   sale_price VARCHAR(50),
   original_price VARCHAR(50),
@@ -41,6 +43,9 @@ CREATE TABLE photos (
 
 CREATE TABLE related (
   id serial PRIMARY KEY,
-  current_product_id INT references product(id),
-  related_product_id INT references product(id),
-)
+  current_product_id INT,
+  related_product_id INt
+);
+
+/*   current_product_id INT references product(id) check (current_product_id > 0),
+  related_product_id INT references product(id) check (related_product_id > 0) */
