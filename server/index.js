@@ -6,7 +6,8 @@ const port = 3001;
 
 app.use(express.json());
 
-app.get('/product', controllers.getProduct)
+app.get('/product', controllers.getProduct);
+app.get('/styles', controllers.getStyles)
 /* app.get('/product', controller.getProduct);
 app.get('/features', controller.getFeatures);
 app.get('/related', controller.getRelated);
