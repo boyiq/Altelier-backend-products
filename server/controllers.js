@@ -14,15 +14,26 @@ module.exports = {
   },
 
   getStyles: function (req, res) {
-    Promise.all([
-      models.getStyles(req.query.id),
-      models.getPhotos(1)
-    ])
-      .then((response)=>{
-        res.status(200).json(response);
+    let photosQuery = [];
+    let stylesObj = {product_id: req.query.id, results:[]};
+    models.getStyles(req.query.id)
+    .then(({ rows })=>{
+      rows.forEach((row, index)=> {
+        // console.log(row);
+        stylesObj.results.push(row);
+        photosQuery.push(models.getPhotos(row.style_id));
+      });
+      return Promise.all(photosQuery);
+    })
+    .then((response)=>{
+      console.log(response);
+      response.forEach((record, index)=>{
+        stylesObj.results[index].photos = record.rows;
       })
-      .catch((err)=>{
-        res.sendStatus(404);
-      })
-  }
+      res.status(200).json(stylesObj)
+    })
+    .catch((err)=>{
+      res.sendStatus(404);
+    })
+  },
 }
