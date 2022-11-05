@@ -17,8 +17,13 @@ module.exports = {
   },
 
   getPhotos: function(style_id) {
-    return db.query(`SELECT thumbnail_url, url FROM photos WHERE styleid=${style_id}`)
+    return db.query(`SELECT styleid, thumbnail_url, url FROM photos WHERE styleid=${style_id}`)
   },
+
+  getSkus: function(style_id) {
+    console.log(`looking for style_id ${style_id}`)
+    return db.query(`SELECT id, size, quantity FROM skus WHERE styleid=${style_id}`)
+  }
 
 /*   getAll: function(id) {
     return db.query(`SELECT * FROM product JOIN styles ON product.id=styles.productid JOIN photos ON styles.id=photos.styleid WHERE product.id=${id}`);

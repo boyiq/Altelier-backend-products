@@ -15,6 +15,7 @@ module.exports = {
 
   getStyles: function (req, res) {
     let photosQuery = [];
+    let skusQuery = [];
     let stylesObj = {product_id: req.query.id, results:[]};
     models.getStyles(req.query.id)
     .then(({ rows })=>{
@@ -26,9 +27,17 @@ module.exports = {
       return Promise.all(photosQuery);
     })
     .then((response)=>{
-      console.log(response);
       response.forEach((record, index)=>{
         stylesObj.results[index].photos = record.rows;
+        // console.log(record.rows);
+        skusQuery.push(models.getSkus(record.rows[0].styleid));
+      });
+      console.log('skusQuery is ', skusQuery);
+      return Promise.all(skusQuery);
+    })
+    .then((response)=>{
+      response.forEach((record, index)=>{
+        stylesObj.results[index].skus = record.rows;
       })
       res.status(200).json(stylesObj)
     })
