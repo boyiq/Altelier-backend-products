@@ -22,7 +22,7 @@ module.exports = {
 
   getSkus: function(style_id) {
     console.log(`looking for style_id ${style_id}`)
-    return db.query(`SELECT id, size, quantity FROM skus WHERE styleid=${style_id}`)
+    return db.query(`SELECT styleid, size, quantity FROM skus WHERE styleid=${style_id}`)
   }
 
 /*   getAll: function(id) {

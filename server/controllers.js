@@ -16,28 +16,28 @@ module.exports = {
   getStyles: function (req, res) {
     let photosQuery = [];
     let skusQuery = [];
+    let styleidArray = [];
     let stylesObj = {product_id: req.query.id, results:[]};
     models.getStyles(req.query.id)
     .then(({ rows })=>{
       rows.forEach((row, index)=> {
-        // console.log(row);
         stylesObj.results.push(row);
-        photosQuery.push(models.getPhotos(row.style_id));
+        styleidArray.push(row.style_id)
+        skusQuery.push(models.getSkus(row.style_id));
       });
-      return Promise.all(photosQuery);
-    })
-    .then((response)=>{
-      response.forEach((record, index)=>{
-        stylesObj.results[index].photos = record.rows;
-        // console.log(record.rows);
-        skusQuery.push(models.getSkus(record.rows[0].styleid));
-      });
-      console.log('skusQuery is ', skusQuery);
       return Promise.all(skusQuery);
     })
     .then((response)=>{
       response.forEach((record, index)=>{
         stylesObj.results[index].skus = record.rows;
+        photosQuery.push(models.getPhotos(styleidArray[0]));
+      });
+      return Promise.all(photosQuery);
+    })
+    .then((response)=>{
+      console.log(response);
+      response.forEach((record, index)=>{
+        stylesObj.results[index].photos = record.rows;
       })
       res.status(200).json(stylesObj)
     })
