@@ -21,11 +21,10 @@ module.exports = {
   },
 
   getSkus: function(style_id) {
-    console.log(`looking for style_id ${style_id}`)
     return db.query(`SELECT styleid, size, quantity FROM skus WHERE styleid=${style_id}`)
-  }
+  },
 
-/*   getAll: function(id) {
-    return db.query(`SELECT * FROM product JOIN styles ON product.id=styles.productid JOIN photos ON styles.id=photos.styleid WHERE product.id=${id}`);
-  } */
+  getRelated: function(id) {
+    return db.query(`SELECT array_agg(related_product_id) FROM related WHERE current_product_id=${id}`)
+  }
 }

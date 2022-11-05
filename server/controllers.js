@@ -45,4 +45,14 @@ module.exports = {
       res.sendStatus(404);
     })
   },
+
+  getRelated: function (req, res) {
+    models.getRelated(req.query.id)
+      .then(({ rows })=>{
+        res.status(200).json(rows[0].array_agg)
+      })
+      .catch((err)=>{
+        res.sendStatus(404);
+      })
+  }
 }
