@@ -2,10 +2,31 @@ const db = require('./db.js');
 
 module.exports = {
   getProductInfo: function (id) {
-    return db.query(`SELECT * FROM product where id=${id}`)
+    return db.query(`
+      SELECT row_to_json(t)
+      FROM (
+        SELECT id, name, slogan, description, category, default_price,
+        (
+          SELECT json_agg(row_to_json(d))
+          FROM (
+            SELECT feature, value
+            FROM features
+            WHERE product_id=product.id
+          )d
+        ) as features
+        FROM product
+        WHERE id=${id}
+      )t`)
   },
 
-  getFeatures: function (id) {
+  getFeatures: function(id) {
+    return db.query(`SELECT feature, value FROM features
+      WHERE product_id=${id}`)
+  }
+
+
+
+/*   getFeatures: function (id) {
     return db.query(`SELECT feature, value FROM features where product_id=${id}`)
   },
 
@@ -26,5 +47,5 @@ module.exports = {
 
   getRelated: function(id) {
     return db.query(`SELECT array_agg(related_product_id) FROM related WHERE current_product_id=${id}`)
-  }
+  } */
 }
