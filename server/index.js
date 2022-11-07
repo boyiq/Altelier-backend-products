@@ -1,9 +1,11 @@
 const express = require('express');
+const morgan = require('morgan');
 const controllers = require('./controllers.js');
 
 const app = express();
 const port = 3001;
 
+app.use(morgan('dev'))
 app.use(express.json());
 
 app.get('/product', controllers.getProduct);
