@@ -42,6 +42,7 @@ module.exports = {
         ) as results
         FROM styles
         WHERE productid=${id}
+        LIMIT 1
       )t
     `)
   },

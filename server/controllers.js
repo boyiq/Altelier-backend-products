@@ -46,7 +46,7 @@ module.exports = {
   getStyles: function (req, res) {
     models.getStyles(req.query.id)
       .then((response)=>{
-        res.status(200).json(response.rows)
+        res.status(200).json(response.rows[0].row_to_json)
       })
   },
 
