@@ -5,7 +5,7 @@ module.exports = {
     return db.query(`
       SELECT row_to_json(t)
       FROM (
-        SELECT id, name, slogan, description, category, default_price,
+        SELECT *,
         (
           SELECT json_agg(row_to_json(d))
           FROM (
@@ -19,11 +19,45 @@ module.exports = {
       )t`)
   },
 
-  getFeatures: function(id) {
-    return db.query(`SELECT feature, value FROM features
-      WHERE product_id=${id}`)
-  }
+  getStyles: function(id) {
+    return db.query(`
+      SELECT row_to_json(t)
+      FROM (
+        SELECT productid as product_id,
+        (
+          SELECT json_agg(row_to_json(d))
+          FROM (
+            SELECT id as style_id, name, sale_price, original_price, default_style,
+            (
+              SELECT json_agg(row_to_json(z))
+              FROM (
+                SELECT thumbnail_url, url
+                FROM photos
+                WHERE styleid=styles.id
+              )z
+            ) as photos
+            FROM styles
+            WHERE productid=${id}
+          )d
+        ) as results
+        FROM styles
+        WHERE productid=${id}
+      )t
+    `)
+  },
 
+  getRelated: function(id) {
+    return db.query(`
+      SELECT
+      array_agg(related_product_id)
+      FROM related
+      WHERE current_product_id=${id}
+    `)
+  },
+
+  getSkus: function(style_id) {
+    return db.query(`SELECT * FROM skus WHERE styleid=${style_id}`)
+  }
 
 
 /*   getFeatures: function (id) {
