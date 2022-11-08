@@ -4,7 +4,7 @@ module.exports = {
   getProduct: function (req, res) {
     models.getProductInfo(req.query.id)
       .then((response)=>{
-        res.status(200).json(response.rows[0].row_to_json)
+        res.status(200).json(response.rows[0])
       })
       .catch((err)=>{
         res.sendStatus(404);

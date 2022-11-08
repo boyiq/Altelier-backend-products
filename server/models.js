@@ -3,20 +3,18 @@ const db = require('./db.js');
 module.exports = {
   getProductInfo: function (id) {
     return db.query(`
-      SELECT row_to_json(t)
-      FROM (
-        SELECT *,
-        (
-          SELECT json_agg(row_to_json(d))
+      SELECT *,
+      (
+        SELECT json_agg(row_to_json(d))
           FROM (
             SELECT feature, value
             FROM features
             WHERE product_id=product.id
           )d
-        ) as features
-        FROM product
-        WHERE id=${id}
-      )t`)
+      ) as features
+      FROM product
+      WHERE id=${id}
+      `)
   },
 
   getStyles: function(id) {
