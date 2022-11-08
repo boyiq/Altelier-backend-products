@@ -4,7 +4,7 @@ module.exports = {
   getProduct: function (req, res) {
     models.getProductInfo(req.query.id)
       .then((response)=>{
-        res.status(200).json(response.rows)
+        res.status(200).json(response.rows[0].row_to_json)
       })
       .catch((err)=>{
         res.sendStatus(404);
@@ -13,8 +13,12 @@ module.exports = {
 
   getStyles: function (req, res) {
     models.getStyles(req.query.id)
-      .then((response)=>{
-        res.status(200).json(response.rows[0].row_to_json)
+      .then(({ rows })=>{
+        if (rows[0]) {
+          res.status(200).json(rows[0].row_to_json);
+        } else {
+          res.status(200).json(null);
+        }
       })
   },
 
