@@ -19,8 +19,6 @@ module.exports = {
 
   getStyles: function(id) {
     return db.query(`
-      SELECT row_to_json(t)
-      FROM (
         SELECT productid as product_id,
         (
           SELECT json_agg(row_to_json(d))
@@ -52,7 +50,6 @@ module.exports = {
         FROM styles
         WHERE productid=${id}
         LIMIT 1
-      )t
     `)
   },
 

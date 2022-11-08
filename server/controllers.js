@@ -15,7 +15,7 @@ module.exports = {
     models.getStyles(req.query.id)
       .then(({ rows })=>{
         if (rows[0]) {
-          res.status(200).json(rows[0].row_to_json);
+          res.status(200).json(rows[0]);
         } else {
           res.status(200).json(null);
         }
