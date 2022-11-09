@@ -1,6 +1,14 @@
 const db = require('./db.js');
 
 module.exports = {
+  getProducts: function() {
+    return db.query(`
+    SELECT *
+    FROM product
+    LIMIT 5
+    `)
+  },
+
   getProductInfo: function (id) {
     return db.query(`
       SELECT *,
@@ -60,9 +68,5 @@ module.exports = {
       FROM related
       WHERE current_product_id=${id}
     `)
-  },
-
-  getSkus: function(style_id) {
-    return db.query(`SELECT * FROM skus WHERE styleid=${style_id}`)
   }
 }

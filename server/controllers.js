@@ -1,8 +1,19 @@
 const models = require('./models.js');
 
 module.exports = {
+  getProducts: function (req, res) {
+    models.getProducts()
+      .then(({ rows })=>{
+        res.status(200).json(rows)
+      })
+      .catch((err)=>{
+        res.sendStatus(404);
+      })
+  },
+
+
   getProduct: function (req, res) {
-    models.getProductInfo(req.query.id)
+    models.getProductInfo(req.params.id)
       .then((response)=>{
         res.status(200).json(response.rows[0])
       })
@@ -12,7 +23,7 @@ module.exports = {
   },
 
   getStyles: function (req, res) {
-    models.getStyles(req.query.id)
+    models.getStyles(req.params.id)
       .then(({ rows })=>{
         if (rows[0]) {
           res.status(200).json(rows[0]);
@@ -22,9 +33,8 @@ module.exports = {
       })
   },
 
-
   getRelated: function (req, res) {
-    models.getRelated(req.query.id)
+    models.getRelated(req.params.id)
       .then(({ rows })=>{
         res.status(200).json(rows[0].array_agg)
       })

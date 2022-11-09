@@ -8,9 +8,10 @@ const port = 3001;
 app.use(morgan('dev'))
 app.use(express.json());
 
-app.get('/product', controllers.getProduct);
-app.get('/styles', controllers.getStyles);
-app.get('/related', controllers.getRelated)
+app.get('/products', controllers.getProducts)
+app.get('/products/:id', controllers.getProduct);
+app.get('/products/:id/styles', controllers.getStyles);
+app.get('/products/:id/related', controllers.getRelated);
 
 app.listen(port);
 console.log(`Listening at http://localhost:${port}`)
