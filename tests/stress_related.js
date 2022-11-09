@@ -15,10 +15,10 @@ export const options = {
 };
 
 export default function () {
-  const base_url = 'http://localhost:3001/related';
+  const base_url = 'http://localhost:3001/products';
   const max = 4508263;
   const min = 4057400;
   const id = Math.floor(Math.random() * (max - min + 1)) + min;
-  http.get(`${base_url}?id=${id}`)
+  http.get(`${base_url}/${id}/related`)
   sleep(1);
 }
