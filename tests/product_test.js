@@ -6,7 +6,7 @@ export const options = {
   scenarios:{
     load_test: {
       executor: 'per-vu-iterations',
-      vus: 200,
+      vus: 710,
       iterations: 1,
       maxDuration: '60s',
     }
