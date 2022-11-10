@@ -7,6 +7,7 @@ module.exports = {
         res.status(200).json(rows)
       })
       .catch((err)=>{
+        console.log('getproducts', err)
         res.sendStatus(404);
       })
   },
@@ -18,6 +19,7 @@ module.exports = {
         res.status(200).json(response.rows[0])
       })
       .catch((err)=>{
+        console.log('getproduct', err)
         res.sendStatus(404);
       })
   },
@@ -31,6 +33,10 @@ module.exports = {
           res.status(200).json(null);
         }
       })
+      .catch((err)=>{
+        console.log('getstyles', err)
+        res.sendStatus(404)
+      })
   },
 
   getRelated: function (req, res) {
@@ -39,6 +45,7 @@ module.exports = {
         res.status(200).json(rows[0].array_agg)
       })
       .catch((err)=>{
+        console.log('getrelated', err)
         res.sendStatus(404);
       })
   }
