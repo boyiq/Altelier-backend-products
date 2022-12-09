@@ -1,1 +1,1 @@
-# mummies-products-bq
+# Altelier backend products API
